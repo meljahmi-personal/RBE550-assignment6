@@ -1,0 +1,44 @@
+
+# Byte-compiled / cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated CAD images
+transmission_scad/images/
+
+# Build artifacts and generated outputs
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.csv
+*.log
+*.tar
+*.zip
+
+
+# Generated results
+results/anim_frames/
+results/*.gif
+
+
+# Local virtual environments
+venv/
+.venv/
+.env/
+hw6env/
+
+# Editor and OS junk
+.DS_Store
+.idea/
+.vscode/
+.ipynb_checkpoints/
+
+
+# Editor backups
+*~
+*.swp
+
+
