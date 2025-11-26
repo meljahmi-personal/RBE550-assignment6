@@ -4,8 +4,11 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Generated CAD images
-transmission_scad/images/
+# Generated CAD
+transmission_scad/
+
+# Results
+results/
 
 # Build artifacts and generated outputs
 *.png
