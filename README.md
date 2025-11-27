@@ -5,7 +5,31 @@ mainshaft from an SM-465 transmission housing. The planner uses a
 capsule-based collision checker and produces the full set of figures and
 animations required by the assignment.
 
-## Running the Assignment
+---
+
+## Setup & Installation
+
+### 1. Clone the Repository
+```bash
+git clone git@github.com:meljahmi-personal/RBE550-assignment6.git
+cd HW6_Transmission
+```
+
+### 2. Create and Activate a Virtual Environment
+```bash
+python3 -m venv hw6env
+source hw6env/bin/activate    # On Linux/Mac
+# or
+hw6env\Scripts\activate     # On Windows
+```
+
+### 3. Install dependencies
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+## 4. Running the Assignment
 
 ```bash
 ./run_hw6.sh

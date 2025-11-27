@@ -1,0 +1,24 @@
+# ============================
+# RBE550 HW6 – Transmission RRT Planner
+# System & Package Requirements
+# ============================
+
+# ---- Operating System Requirements (Ubuntu 22.04 LTS) ----
+# sudo apt update
+# sudo apt install -y openscad xvfb python3 python3-pip
+#
+# OpenSCAD is required for generating the CAD figures (PNGs and STLs)
+# xvfb-run allows OpenSCAD to run headless (no GUI)
+
+# ---- Python Version ----
+# Python 3.10+ recommended
+
+# ---- Python Dependencies ----
+numpy==1.26.4
+matplotlib==3.8.2
+imageio==2.34.0
+trimesh==4.0.5
+shapely==2.0.2
+
+
+
