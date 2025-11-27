@@ -105,6 +105,7 @@ It is generated automatically by `run_hw6.sh` and saved under:
 Directory tree after running `run_hw6.sh`:
 
 ```
+.
 ├── build_images.sh
 ├── hw6env
 │   ├── bin
@@ -128,15 +129,18 @@ Directory tree after running `run_hw6.sh`:
 │   ├── include
 │   ├── lib
 │   │   └── python3.10
+│   │       └── site-packages
 │   ├── lib64 -> lib
 │   ├── pyvenv.cfg
 │   └── share
 │       └── man
+│           └── man1
 ├── RBE550_assignment_transmission_SCAD_files.tar.xz
 ├── README.md
 ├── report
 │   ├── meljahmi_RBE550_HW6.docx
-│   └── meljahmi_RBE550_HW6.pdf
+│   ├── meljahmi_RBE550_HW6.pdf
+│   └── post.md
 ├── requirements.txt
 ├── results
 │   ├── anim_mesh_frames
@@ -190,6 +194,7 @@ Directory tree after running `run_hw6.sh`:
 │   │   ├── transmission.png
 │   │   └── transmission.stl
 │   ├── path_3d.png
+│   ├── rrt_tree_3d.png
 │   └── rrt_tree.png
 ├── run_hw6.sh
 ├── scd_stl_docs
@@ -224,6 +229,7 @@ Directory tree after running `run_hw6.sh`:
         ├── view_secondary.scad
         ├── view_transmission_apart.scad
         └── view_transmission.scad
+
 
 
 ```
