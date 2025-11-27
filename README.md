@@ -74,6 +74,17 @@ This script:
 - anim_simple.gif — Capsule-based animation  
 - anim_mesh.gif — Full STL mesh animation  
 
+### Additional Visualization
+
+**rrt_tree_3d.png**  
+A full 3D visualization of the RRT tree in SE(3).  
+This figure supplements the standard LaValle-style 2D tree and provides a
+spatial understanding of how the planner explored the configuration space.
+It is generated automatically by `run_hw6.sh` and saved under:
+
+- results/rrt_tree_3d.png
+
+
 ### CAD Images & STL Files (results/cad_images/)
 - transmission.png  
 - transmission_apart.png  

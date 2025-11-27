@@ -44,10 +44,9 @@ HAVE_TRIMESH: bool = trimesh is not None
 
 from rrt import RRT, Pose as RrtPose
 from collision import TransmissionScene, Pose as ScenePose, rotation_matrix_from_rpy
-
-
-
-
+import matplotlib.patches as patches 
+from matplotlib.patches import Rectangle
+from matplotlib.patches import Polygon
 
 # ---------------------------------------------------------------------------
 # Small utility helpers
@@ -313,6 +312,64 @@ def save_animation_frames_and_gif_mesh(
         imageio.mimsave(gif_path, images, fps=10)
 
 
+
+def save_rrt_tree_figure_lavalle(
+    rrt: RRT,
+    case_inner_xyz_mm: np.ndarray,
+    output_path_png: str,
+) -> None:
+    """
+    LaValle-style 2D RRT visualization.
+
+    - Projects the SE(3) tree into the XY plane.
+    - Draws the interior footprint of the case as a rectangle.
+    - Plots all RRT edges as thin line segments (like LaValle figures).
+    """
+    fig, ax = plt.subplots(figsize=(5.0, 4.0))
+
+    # Case footprint in XY: centered box with width=case_inner_xyz_mm[0],
+    # height=case_inner_xyz_mm[1].
+    hx, hy, _ = 0.5 * case_inner_xyz_mm
+    rect = Rectangle(
+        (-hx, -hy),          # bottom-left
+        2.0 * hx,            # width  in X
+        2.0 * hy,            # height in Y
+        fill=False,
+        linewidth=1.0,
+    )
+    ax.add_patch(rect)
+
+    # Plot all edges in the RRT using the parent index list
+    for idx, pose in enumerate(rrt.node_list):
+        parent_idx = rrt.parent_index_list[idx]
+        if parent_idx is None:
+            continue  # root
+
+        parent_pose = rrt.node_list[parent_idx]
+
+        ax.plot(
+            [parent_pose.x, pose.x],
+            [parent_pose.y, pose.y],
+            linewidth=0.4,
+        )
+
+    # Optionally highlight start and goal
+    start_pose = rrt.start_pose
+    goal_pose = rrt.goal_pose
+    ax.scatter([start_pose.x], [start_pose.y], c="k", s=20, marker="o")
+    ax.scatter([goal_pose.x], [goal_pose.y], c="k", s=20, marker="x")
+
+    ax.set_aspect("equal", "box")
+    ax.set_xlabel("X (mm)")
+    ax.set_ylabel("Y (mm)")
+    ax.set_title("RRT Tree (XY projection, LaValle-style)")
+    ax.grid(True, linestyle=":", linewidth=0.3)
+
+    plt.tight_layout()
+    fig.savefig(output_path_png, dpi=160)
+    plt.close(fig)
+
+
 # ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
@@ -351,6 +408,8 @@ def main() -> None:
 
     # Make sure results directory exists
     ensure_results_directory(args.results_dir)
+    results_dir = args.results_dir
+
 
     # Build the scene and get start/goal poses
     scene = TransmissionScene()
@@ -405,11 +464,6 @@ def main() -> None:
 
     case_inner_xyz_mm = scene.inner_max_xyz - scene.inner_min_xyz
 
-    # Save path and RRT tree figures
-    path_png = os.path.join(args.results_dir, "path_3d.png")
-    tree_png = os.path.join(args.results_dir, "rrt_tree.png")
-    save_3d_path_figure(path_pose_list, case_inner_xyz_mm, path_png)
-    save_rrt_tree_figure(rrt, tree_png)
 
     # Save animation frames + optional GIF
     frames_dir = os.path.join(args.results_dir, "anim_frames")
@@ -454,11 +508,32 @@ def main() -> None:
         stl_secondary_path=secondary_stl,
     )
 
+
+
     print("Done.")
+    
+       
+
+    # 3D path + case (leave as is or keep your existing helper)
+    path_png = os.path.join(results_dir, "path_3d.png")
+    save_3d_path_figure(path_pose_list, case_inner_xyz_mm, path_png)
+
+
     print(f"- Path figure:          {path_png}")
+
+    # LaValle-style 2D tree inside case footprint
+    tree_png = os.path.join(results_dir, "rrt_tree.png")
+    save_rrt_tree_figure_lavalle(rrt, case_inner_xyz_mm, tree_png)
     print(f"- RRT figure:           {tree_png}")
+
+    # Optional: full 3D tree for debugging
+    tree3d_png = os.path.join(results_dir, "rrt_tree_3d.png")
+    save_rrt_tree_figure(rrt, tree3d_png)
+
+    print(f"- 3D RRT figure:        {tree3d_png}")
     print(f"- Simple animation:     {simple_gif_path}")
     print(f"- STL animation (rich): {mesh_gif_path}")
+
 
 
 if __name__ == "__main__":
